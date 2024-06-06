@@ -17,7 +17,7 @@ func main() {
 	r := gin.Default()
 	
 	routes.Register(r)
-	config.ReadConfig()
+	config.InitConfig()
 	srv := &http.Server{
 		Addr:    ":8080",
 		Handler: r,

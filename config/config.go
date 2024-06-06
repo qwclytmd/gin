@@ -12,11 +12,16 @@ func init() {
 	v = viper.New()
 }
 
-func ReadConfig() {
+func InitConfig() {
+	ReadFile()
+	Connection(v.GetString("database.dbname"))
+}
+
+func ReadFile() {
 	v.SetConfigName("config")
 	v.SetConfigType("yaml")
 	v.AddConfigPath(".")
-	err := v.ReadInConfig() 
+	err := v.ReadInConfig()
 	if err != nil {       
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
@@ -25,3 +30,4 @@ func ReadConfig() {
 func GetConfig() *viper.Viper {
 	return v
 }
+
