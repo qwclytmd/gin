@@ -2,14 +2,18 @@ package services
 
 import (
 	"log"
-	"mate/app/dto"
 
 	"github.com/gin-gonic/gin"
 )
 
 type Login struct{}
 
-func (s Login) CheckLoginAuth(input dto.LoginReq) any {
+type LoginReq struct {
+	Username string
+	Password string
+}
+
+func (s Login) CheckLoginAuth(input LoginReq) any {
 	log.Printf("%+v", input)
 	return gin.H{"name": "duck"}
 }

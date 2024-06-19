@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"mate/app/controller"
+	controller "mate/app/controllers"
 
 	"github.com/gin-gonic/gin"
 )
