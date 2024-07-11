@@ -1,0 +1,8 @@
+ok: "ok"
+fail: "fail"
+parameter error: "parameter error"
+unauthorized: "unauthorized"
+internal error: "internal error"
+token cannot be empty: "token cannot be empty"
+token is invalid: "token is invalid"
+wrong user name or password: "wrong user name or password"

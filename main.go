@@ -1,35 +1,38 @@
 package main
 
 import (
+	"bcw/app/common/public"
+	"bcw/config"
+	"bcw/routes"
+	"bcw/server"
 	"context"
+	"errors"
+	"github.com/gin-gonic/gin"
 	"log"
-	"mate/config"
-	"mate/routes"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	r := gin.Default()
-	
-	routes.Register(r)
-	config.InitConfig()
+	gin.SetMode(config.GetViper().GetString("server.run_mode"))
+
+	StartServers()
+	r := routes.SetupRouter()
+
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":" + config.GetViper().GetString("server.port"),
 		Handler: r,
 	}
 
 	go func() {
 		// 服务连接
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatalf("listen: %s\n", err)
 		}
 	}()
-	
+
 	// 等待中断信号以优雅地关闭服务器（设置 5 秒的超时时间）
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
@@ -42,4 +45,11 @@ func main() {
 		log.Fatal("Server Shutdown:", err)
 	}
 	log.Println("Server exiting")
+}
+
+func StartServers() {
+	//服务初始化
+	server.Initialize()
+	//同步权限
+	public.Permissions{}.SyncCasbinRules(server.HttpServers.Casbin)
 }

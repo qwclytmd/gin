@@ -1,0 +1,8 @@
+ok: "操作成功"
+fail: "操作失败"
+parameter error: "参数错误"
+unauthorized: "未授权"
+internal error: "内部错误"
+token cannot be empty: "令牌不能为空"
+token is invalid: "令牌无效"
+wrong user name or password: "用户名或密码错误"
